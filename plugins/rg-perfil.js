@@ -1,28 +1,55 @@
-import { canLevelUp, xpRange } from '../lib/levelling.js'
-import PhoneNumber from 'awesome-phonenumber'
+import { createHash } from 'crypto';
+import fetch from 'node-fetch';
 
-let handler = async (m, { conn, usedPrefix, command}) => {
-  let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-  let user = global.db.data.users[who]
-  let pp = await conn.profilePictureUrl(who, 'image').catch(_ => './src/avatar_contact.png')
-  let { exp, limit, name, registered, regTime, age, level } = global.db.data.users[who]
-  let { min, xp, max } = xpRange(user.level, global.multiplier)
-  let username = conn.getName(who)
-  let prem = global.prems.includes(who.split`@`[0])
-  let txt = `╭─⬣「 *User Perfil* 」⬣\n`
-     txt += `│  ≡◦ *🪴 Nombre ∙* ${name}\n`
-     txt += `│  ≡◦ *🐢 Edad ∙* ${age} años\n`
-     
-     txt += `│  ≡◦ *📞 Numero ∙* ${PhoneNumber('+' + who.replace('@s.whatsapp.net', '')).getNumber('international')}\n`
-     txt += `│  ≡◦ *🍬 Dulces ∙* ${limit}\n`
-     txt += `│  ≡◦ *💫 Experiencia ∙* Total ${exp} ( *${user.exp - min}/${xp}* )\n`
-     txt += `│  ≡◦ *👑 Premium ∙* ${prem ? 'Si' : 'No'}\n`
-     txt += `╰─⬣`
-await conn.sendFile(m.chat, pp, 'thumbnail.jpg', txt, m)
+let handler = async (m, { conn, usedPrefix }) => {
+    let fkontak = { 
+        "key": { 
+            "participants": "0@s.whatsapp.net", 
+            "remoteJid": "status@broadcast", 
+            "fromMe": false, 
+            "id": "Halo" 
+        }, 
+        "message": { 
+            "contactMessage": { 
+                "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` 
+            }
+        }, 
+        "participant": "0@s.whatsapp.net" 
+    };
+
+    let pp = 'https://telegra.ph/file/1db8fa0cb55d015021da7.mp4';
+    let user = global.db.data.users[m.sender];
+    let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
+    try {
+        pp = await conn.getProfilePicture(who);
+    } catch (e) {
+        // Usar imagen de perfil predeterminada si no se puede obtener la imagen del perfil
+    } finally {
+        let { name, limit, lastclaim, registered, regTime, age } = global.db.data.users[who];
+        let mentionedJid = [who];
+        let username = conn.getName(who);
+        let prem = global.prems.includes(who.split`@`[0]);
+        let sn = createHash('md5').update(who).digest('hex');
+        let str = 
+`[#URABE_MIKOTO]
+
+PERFIL COMPLETO DE ${username}
+
+DATOS GENERALES
+
+[🙎‍♂️] ID → ${who.split('@')[0]}
+[🗒] NOMBRES → ${name ? name : 'No registrado'}
+[💎] DIAMANTES → ${user.limit ? user.limit : 0}
+[〽️] PREMIUM → ${prem ? 'Sí' : 'No'}
+[👺] ESTADO → ${user.status ? user.status : 'No disponible'}
+[🔗] ENLACE DE REFERIDO → https://api.whatsapp.com/send/?phone=51973846456&text=.menu`.trim();
+
+        conn.sendFile(m.chat, pp, 'pp.jpg', str, fkontak, false, { contextInfo: { mentionedJid }});
+    }
 }
-handler.help = ['perfil', 'perfil @user']
-handler.tags = ['rg']
-handler.command = ['perfil', 'profile']
-handler.register = true
 
-export default handler
+handler.help = ['perfil [@usuario]'];
+handler.tags = ['xp'];
+handler.command = /^perfil|profile?$/i;
+
+export default handler;
