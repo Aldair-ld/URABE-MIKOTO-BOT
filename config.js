@@ -28,7 +28,7 @@ global.packname = ``
 global.author = '{\n "bot": {\n   "name": "𝚄𝚁𝙰𝙱𝙴_𝙼𝙸𝙺𝙾𝚃𝙾 - 𝙱𝙾𝚃",\n     "author": "Aldair",\n   "status_bot": "active"\n }\n}'
 global.wait = '🐢 *𝚄𝚁𝙰𝙱𝙴_𝙼𝙸𝙺𝙾𝚃𝙾 - 𝙱𝙾𝚃*'
 global.botname = '𝚄𝚁𝙰𝙱𝙴_𝙼𝙸𝙺𝙾𝚃𝙾 - 𝙱𝙾𝚃'
-global.textbot = `.`
+global.textbot = `𝚄𝚁𝙰𝙱𝙴_𝙼𝙸𝙺𝙾𝚃𝙾 - 𝙱𝙾𝚃`
 global.listo = '*🍭 Aqui tiene*'
 global.namechannel = '𝚄𝚁𝙰𝙱𝙴 - 𝙼𝙸𝙺𝙾𝚃𝙾 [ 𝙲𝙰𝙽𝙰𝙻 ] 👥'
 
