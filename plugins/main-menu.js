@@ -26,16 +26,19 @@ let tags = {
 
 const defaultMenu = {
   before: `
-“ Bienvenido *%name*, Cómo se encuentra el día de hoy? ”
+“ Bienvenido *%name* ”
 
-╭──⬣「 *Info User* 」⬣
-│  ≡◦ *🍭 Nombre ∙* %name
+
+🌸 Buen dia/tarde/noche...
+💐 ¿Como estas?
+
+╭──✯「 Info User👤」✯
+│  ≡◦ *🌹 Nombre ∙* %name
 │  ≡◦ *🍬 Diamantes ∙* %limit
-│  ≡◦ *💫 XP ∙* %totalexp
-│  ≡◦ *🐢 Nivel ∙* %level
+│  ≡◦ *🪻 XP ∙* %totalexp
+│  ≡◦ *🪷 Nivel ∙* %level
 ╰──⬣
-%readmore
-*꒷꒦꒷꒷꒦꒷꒦꒷꒷꒦꒷꒦꒷꒦꒷꒷꒦꒷꒷꒦꒷꒷꒦꒷꒦꒷꒦꒷꒦꒷*
+
 
 \t\t\t*L I S T A  -  M E N Ú S*
 `.trimStart(),
